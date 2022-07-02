@@ -46,7 +46,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Category", b =>
@@ -79,7 +79,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Collection", b =>
@@ -103,7 +103,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.CollectionProduct", b =>
@@ -135,7 +135,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "CollectionId" }, "IX_CollectionProducts_CollectionId");
 
-                    b.ToTable("CollectionProducts");
+                    b.ToTable("CollectionProducts", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Color", b =>
@@ -163,7 +163,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.ToTable("Colors", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Comment", b =>
@@ -230,7 +230,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "UserId" }, "IX_Comments_UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.FileType", b =>
@@ -283,7 +283,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FileTypeExtentions");
+                    b.ToTable("FileTypeExtentions", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Model", b =>
@@ -313,7 +313,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Models");
+                    b.ToTable("Models", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Operator", b =>
@@ -337,7 +337,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Operators");
+                    b.ToTable("Operators", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Product", b =>
@@ -403,7 +403,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "OperatorId" }, "IX_Products_OperatorId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.ProductColor", b =>
@@ -438,7 +438,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "ProductId" }, "IX_ProductColors_ProductID");
 
-                    b.ToTable("ProductColors");
+                    b.ToTable("ProductColors", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.ProductFile", b =>
@@ -472,7 +472,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "ProductId" }, "IX_ProductFiles_ProductId");
 
-                    b.ToTable("ProductFiles");
+                    b.ToTable("ProductFiles", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.ProductTag", b =>
@@ -511,7 +511,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "TagId" }, "IX_ProductTags_TagId");
 
-                    b.ToTable("ProductTags");
+                    b.ToTable("ProductTags", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.ProductView", b =>
@@ -543,7 +543,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "ProductId" }, "IX_ProductViews_ProductId");
 
-                    b.ToTable("ProductViews");
+                    b.ToTable("ProductViews", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Status", b =>
@@ -570,7 +570,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.Tag", b =>
@@ -602,7 +602,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasIndex(new[] { "TagCategoryId" }, "IX_Tags_TagCategoryId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.TagCategory", b =>
@@ -626,7 +626,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TagCategories");
+                    b.ToTable("TagCategories", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.User", b =>
@@ -650,7 +650,7 @@ namespace App.Infrastructures.Database.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("App.Infrastructures.Database.SqlServer.Entities.CollectionProduct", b =>

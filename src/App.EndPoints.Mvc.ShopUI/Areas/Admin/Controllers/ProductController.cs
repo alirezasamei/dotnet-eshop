@@ -1,18 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using App.Infrastructures.Database.SqlServer.Data;
-
-
-
-using Microsoft.AspNetCore.Mvc.Rendering;
-using App.EndPoints.Mvc.AdminUI.ViewModels;
-using App.Domain.Core.Product.Entities;
+﻿using App.Domain.Core.BaseData.Contarcts.AppServices;
+using App.Domain.Core.Operator.Contract.AppServices;
 using App.Domain.Core.Product.Contacts.AppServices;
 using App.Domain.Core.Product.Dtos;
-using App.Domain.Core.BaseData.Contarcts.AppServices;
-using App.Domain.Core.Operator.Entities;
-using App.Domain.Core.Operator.Contract.AppServices;
-using Microsoft.AspNetCore.Mvc.Filters;
 using App.EndPoints.Mvc.AdminUI.Models.ViewModels.Product.Product;
+using App.EndPoints.Mvc.AdminUI.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App.EndPoints.Mvc.AdminUI.Controllers
 {
@@ -26,6 +19,9 @@ namespace App.EndPoints.Mvc.AdminUI.Controllers
         private readonly IModelAppService _modelAppService;
         private readonly ICategoryAppService _categoryAppService;
         private readonly IOperatorAppService _operatorAppService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IBaseDataAppService _baseDataAppService;
+
         // TODO : Operator
 
         public ProductController(
@@ -34,9 +30,12 @@ namespace App.EndPoints.Mvc.AdminUI.Controllers
             IColorAppService colorAppService,
             IModelAppService modelAppService,
             ICategoryAppService categoryAppService,
-            IOperatorAppService operatorAppService
-            )
+            IOperatorAppService operatorAppService,
+            IWebHostEnvironment webHostEnvironment,
+            IBaseDataAppService baseDataAppService)
         {
+            _webHostEnvironment = webHostEnvironment;
+            _baseDataAppService = baseDataAppService;
             _productAppService = appService;
             _brandAppService = brandAppService;
             _colorAppService = colorAppService;
@@ -65,6 +64,11 @@ namespace App.EndPoints.Mvc.AdminUI.Controllers
                 IsActive = p.IsActive,
                 OperatorId = p.OperatorId,
                 BrandId = p.BrandId,
+                Images = p.FileNames.Select(n => new ImageViewModel
+                {
+                    Name = Path.GetFileNameWithoutExtension(n).Split("_")[0],
+                    Url = n,
+                }).ToList(),
             }).ToList();
             return View(recordsProduct);
         }
@@ -112,18 +116,17 @@ namespace App.EndPoints.Mvc.AdminUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductAddViewModel product)
+        public async Task<IActionResult> Create(ProductAddViewModel product, IFormFileCollection files)
         {
 
             if (ModelState.IsValid)
             {
-                var colors = await _colorAppService.GetAll();
-                // select the selected colors
-                var selectedColors = colors.Where(x => product.ColorIds.Contains(x.Id)).ToList();
+                //var colors = await _colorAppService.GetAll();
+                //// select the selected colors
+                //var selectedColors = colors.Where(x => product.ColorIds.Contains(x.Id)).ToList();
 
-                var dto = new ProductDto
+                var dto = new ProductCreateDto
                 {
-                    Id = product.Id,
                     Name = product.Name,
                     CreationDate = DateTime.Now,
                     CategoryId = product.CategoryId,
@@ -137,8 +140,32 @@ namespace App.EndPoints.Mvc.AdminUI.Controllers
                     IsActive = product.IsActive,
                     OperatorId = product.OperatorId,
                     BrandId = product.BrandId,
-                    Colors = selectedColors,
                 };
+                product.ColorIds.ForEach(c => dto.ProductColors.Add(new ProductColorDto { ColorId = c }));
+                var fileTypes = new List<string>();
+                foreach (var file in files)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName) + Guid.NewGuid().ToString();
+                    using (FileStream stream = new FileStream(Path.Combine(_webHostEnvironment.WebRootPath, fileName + Path.GetExtension(file.FileName)), FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                        try
+                        {
+                            dto.Files.Add(new ProductFileDto
+                            {
+                                Name = fileName,
+                                FileTypeId = (int)await _baseDataAppService.GetFileTypeId(file.ContentType),
+
+                            });
+                        }
+                        catch (ArgumentNullException ex)
+                        {
+                            fileTypes.Add(file.ContentType);
+                        }
+                    }
+                }
+                //if(fileTypes.Count > 0)
+                //    return 
                 await _productAppService.Set(dto);
                 return RedirectToAction(nameof(Index));
             }
@@ -220,7 +247,7 @@ namespace App.EndPoints.Mvc.AdminUI.Controllers
             // select the selected colors
             var selectedColors = colors.Where(x => product.ColorIds.Contains(x.Id)).ToList();
 
-            var dto = new ProductDto
+            var dto = new ProductShowDto
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -236,7 +263,7 @@ namespace App.EndPoints.Mvc.AdminUI.Controllers
                 IsActive = product.IsActive,
                 OperatorId = product.OperatorId,
                 BrandId = product.BrandId,
-                Colors = selectedColors,
+                //Colors = selectedColors,
             };
             await _productAppService.Update(dto);
             return RedirectToAction("Index");

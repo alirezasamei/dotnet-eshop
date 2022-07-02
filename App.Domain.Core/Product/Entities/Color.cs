@@ -8,6 +8,7 @@ namespace App.Domain.Core.Product.Entities
     {
         public Color()
         {
+            Products = new HashSet<Product>();
             ProductColors = new HashSet<ProductColor>();
         }
 
@@ -17,6 +18,7 @@ namespace App.Domain.Core.Product.Entities
         public DateTime CreationDate { get; set; }
         public bool IsDeleted { get; set; }
 
+        public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<ProductColor> ProductColors { get; set; }
     }
 }

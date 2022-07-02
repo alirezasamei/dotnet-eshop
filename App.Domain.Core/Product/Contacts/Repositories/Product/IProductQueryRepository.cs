@@ -9,8 +9,8 @@ namespace App.Domain.Core.Product.Contacts.Repositories.Product
 {
     public interface IProductQueryRepository
     {
-        Task<List<ProductDto>> GetAll();
-        Task<ProductDto>? Get(int id);
-        Task<ProductDto>? Get(string name);
+        Task<List<ProductShowDto>?> GetAll();
+        Task<ProductShowDto?> Get(int id);
+        Task<ProductShowDto?> Get(string name);
     }
 }

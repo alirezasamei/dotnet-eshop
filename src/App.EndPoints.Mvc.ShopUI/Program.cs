@@ -27,16 +27,13 @@ using App.Infrastructures.Database.Repos.Ef.Product.Color;
 using App.Infrastructures.Database.Repos.Ef.Product.Model;
 using App.Infrastructures.Database.Repos.Ef.Product.Product;
 using App.Infrastructures.Database.SqlServer.Data;
-
 using Microsoft.EntityFrameworkCore;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews()
-    .AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseSqlServer("Data Source=(LocalDb)\\MSSQLLocalDB; Initial Catalog=DotNetShopDb; Integrated Security=TRUE");
@@ -72,7 +69,11 @@ builder.Services.AddScoped<IColorAppService, ColorAppService>();
 builder.Services.AddScoped<IColorService, ColorService>();
 builder.Services.AddScoped<IColorCommandRepository, ColorCommandRepository>();
 builder.Services.AddScoped<IColorQueryRepository, ColorQueryRepository>();
+builder.Services.AddScoped<IProductColorCommandRepository, ProductColorCommandRepository>();
 #endregion
+#region File
+builder.Services.AddScoped<IProductFileCommandRepository, ProductFileCommandRepository>();
+#endregion File
 #region Model 
 builder.Services.AddScoped<IModelAppService, ModelAppService>();
 builder.Services.AddScoped<IModelService, ModelService>();
@@ -96,7 +97,6 @@ builder.Services.AddScoped<IOperatorQueryRepository, OperatorQueryRepository>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 #endregion Permission
-
 
 
 var app = builder.Build();

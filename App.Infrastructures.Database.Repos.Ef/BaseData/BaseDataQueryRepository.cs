@@ -18,6 +18,11 @@ namespace App.Infrastructures.Database.Repos.Ef.BaseData
         {
             _context = context;
         }
-       
+
+        public async Task<int?> GetFileTypeId(string name)
+        {
+            return await _context.FileTypes.Where(f => f.Name == name).Select(f => f.Id).FirstOrDefaultAsync();
+
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@model ProductAddViewModel
-<form method="post" asp-controller="Product" asp-action="Create">
+<form enctype="multipart/form-data" method="post" asp-controller="Product" asp-action="Create">
 
 
     <div class="form-group row">
@@ -103,7 +103,7 @@
                     <label asp-for="ColorIds"></label>
                 </div>
                 <div class="col-8">
-                    <select asp-for="ColorIds" class="select-chosen" asp-items="@ViewBag.Colors" multiple>
+                    <select asp-for="ColorIds" class="select-chosen " asp-items="@ViewBag.Colors" multiple>
                         <option disabled selected>انتخاب رنگ ها</option>
                     </select>
                     <span asp-validation-for="ColorIds" class="text-danger"></span>
@@ -128,7 +128,7 @@
                     Image
                 </div>
                 <div class="col-8">
-                    <input class="form-control" type="file" />
+                    <input class="form-control" name="files" type="file" multiple/>
                 </div>
             </div>
 

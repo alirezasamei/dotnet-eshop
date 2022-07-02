@@ -12,10 +12,13 @@ namespace App.Domain.Core.Product.Entities
     {
         public Product()
         {
+            Collections = new HashSet<Collection>();
             CollectionProducts = new HashSet<CollectionProduct>();
             Comments = new HashSet<Comment>();
+            Colors = new HashSet<Color>();
             ProductColors = new HashSet<ProductColor>();
             ProductFiles = new HashSet<ProductFile>();
+            Tags = new HashSet<Tag>();
             ProductTags = new HashSet<ProductTag>();
             ProductViews = new HashSet<ProductView>();
         }
@@ -41,10 +44,13 @@ namespace App.Domain.Core.Product.Entities
         public virtual Model Model { get; set; } = null!;
         public virtual OperatorEntities.Operator Operator { get; set; } = null!;
 
+        public virtual ICollection<Collection> Collections { get; set; }
         public virtual ICollection<CollectionProduct> CollectionProducts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Color> Colors { get; set; }
         public virtual ICollection<ProductColor> ProductColors { get; set; }
         public virtual ICollection<ProductFile> ProductFiles { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<ProductTag> ProductTags { get; set; }
         public virtual ICollection<ProductView> ProductViews { get; set; }
     }

@@ -5,11 +5,11 @@ namespace App.Domain.Core.Product.Contacts.AppServices
 {
     public interface IProductAppService
     {
-        Task<List<ProductDto>> GetAll();
-        Task Set(ProductDto dto);
-        Task<ProductDto> Get(int id);
-        Task<ProductDto> Get(string name);
-        Task Update(ProductDto dto);
+        Task<List<ProductShowDto>> GetAll();
+        Task Set(ProductCreateDto dto);
+        Task<ProductShowDto> Get(int id);
+        Task<ProductShowDto> Get(string name);
+        Task Update(ProductShowDto dto);
         Task Delete(int id);
     }
 }

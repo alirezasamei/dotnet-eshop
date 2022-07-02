@@ -9,6 +9,6 @@ namespace App.Domain.Core.BaseData.Contarcts.AppServices
 {
     public interface IBaseDataAppService
     {
-        
+        Task<int?> GetFileTypeId(string name);
     }
 }

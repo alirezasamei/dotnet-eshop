@@ -19,7 +19,7 @@ namespace App.Infrastructures.Database.Repos.Ef.Product.Product
         {
             _context = context;
         }
-        public async Task Add(ProductDto dto)
+        public async Task<int> Add(ProductCreateDto dto)
         {
             App.Domain.Core.Product.Entities.Product record = new()
             {
@@ -38,22 +38,24 @@ namespace App.Infrastructures.Database.Repos.Ef.Product.Product
                 CreationDate = dto.CreationDate,
                 IsDeleted = dto.IsDeleted,
             };
-            await _context.AddAsync(record);
-            await _context.SaveChangesAsync();
-            foreach (var color in dto.Colors)
-            {
-                ProductColor productColor = new ProductColor
-                {
 
-                    ProductId = record.Id,
-                    ColorId = color.Id,
-                    Name = color.Name + record.Name,
-                    CreationDate = DateTime.Now,
-                    IsDeleted = false,
-                };
-                record.ProductColors.Add(productColor);
-            }
+            var entry = await _context.AddAsync(record);
             await _context.SaveChangesAsync();
+            //foreach (var color in dto.Colors)
+            //{
+            //    ProductColor productColor = new ProductColor
+            //    {
+
+            //        ProductId = record.Id,
+            //        ColorId = color.Id,
+            //        Name = color.Name + record.Name,
+            //        CreationDate = DateTime.Now,
+            //        IsDeleted = false,
+            //    };
+            //    record.ProductColors.Add(productColor);
+            //}
+            //await _context.SaveChangesAsync();
+            return entry.Entity.Id;
         }
 
         public async Task Delete(int id)
@@ -64,9 +66,9 @@ namespace App.Infrastructures.Database.Repos.Ef.Product.Product
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(ProductDto dto)
+        public async Task Update(ProductShowDto dto)
         {
-            var record = await _context.Products.Where(p => p.Id == dto.Id).Include(x => x.ProductColors).SingleAsync();
+            var record = await _context.Products.Where(p => p.Id == dto.Id).SingleAsync();
             record.CategoryId = dto.CategoryId;
             record.BrandId = dto.BrandId;
             record.Weight = dto.Weight;
@@ -81,20 +83,20 @@ namespace App.Infrastructures.Database.Repos.Ef.Product.Product
             record.Name = dto.Name;
             record.IsDeleted = dto.IsDeleted;
             var productColors = new List<ProductColor>();
-            foreach (var color in dto.Colors)
-            {
-                ProductColor productColor = new ProductColor
-                {
+            //foreach (var color in dto.Colors)
+            //{
+            //    ProductColor productColor = new ProductColor
+            //    {
 
-                    ProductId = record.Id,
-                    ColorId = color.Id,
-                    Name = color.Name + record.Name,
-                    CreationDate = DateTime.Now,
-                    IsDeleted = false,
-                };
-                productColors.Add(productColor);
-            }
-            record.ProductColors = productColors;
+            //        ProductId = record.Id,
+            //        ColorId = color.Id,
+            //        Name = color.Name + record.Name,
+            //        CreationDate = DateTime.Now,
+            //        IsDeleted = false,
+            //    };
+            //    productColors.Add(productColor);
+            //}
+            //record.ProductColors = productColors;
             await _context.SaveChangesAsync();
         }
     }

@@ -9,6 +9,7 @@ namespace App.Domain.Core.BaseData.Contarcts.Services
 {
     public interface IBaseDataService
     {
-        
+        Task EnsureFileTypeExists(string name);
+        Task<int?> GetFileTypeId(string name);
     }
 }

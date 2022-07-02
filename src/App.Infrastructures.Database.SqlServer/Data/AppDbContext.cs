@@ -161,6 +161,22 @@ namespace App.Infrastructures.Database.SqlServer.Data
                 entity.HasOne(d => d.Operator)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.OperatorId);
+
+                entity.HasMany(d => d.Collections)
+                .WithMany(p => p.Products)
+                .UsingEntity<CollectionProduct>();
+
+                entity.HasMany(d => d.Colors)
+                .WithMany(p => p.Products)
+                .UsingEntity<ProductColor>();
+
+                entity.HasMany(d => d.Tags)
+                .WithMany(p => p.Products)
+                .UsingEntity<ProductTag>();
+
+                entity.HasMany(d => d.Tags)
+                .WithMany(p => p.Products)
+                .UsingEntity<ProductTag>();
             });
 
             modelBuilder.Entity<ProductColor>(entity =>

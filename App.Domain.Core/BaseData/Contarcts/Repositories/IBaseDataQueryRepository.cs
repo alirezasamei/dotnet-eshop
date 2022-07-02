@@ -9,6 +9,7 @@ namespace App.Domain.Core.BaseData.Contarcts.Repositories
 {
     public interface IBaseDataQueryRepository
     {
-       
+        Task<int?> GetFileTypeId(string name);
+
     }
 }

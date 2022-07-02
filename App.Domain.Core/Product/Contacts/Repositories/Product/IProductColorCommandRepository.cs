@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Product.Contacts.Repositories.Product
 {
-    public interface IProductCommandRepository
+    public interface IProductColorCommandRepository
     {
-        Task<int> Add(ProductCreateDto dto);
-        Task Update(ProductShowDto dto);
+        Task Add(ProductColorDto dto);
         Task Delete(int id);
     }
 }

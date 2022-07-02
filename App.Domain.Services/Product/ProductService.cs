@@ -14,22 +14,30 @@ namespace App.Domain.Services.Product
     public class ProductService : IProductService
     {
 
-        private readonly IProductCommandRepository _commandRepository;
-        private readonly IProductQueryRepository _queryRepository;
-        public ProductService(IProductCommandRepository categoryCommandRepository, IProductQueryRepository categoryQueryRepository)
+        private readonly IProductCommandRepository _productCommandRepository;
+        private readonly IProductQueryRepository _productQueryRepository;
+        private readonly IProductColorCommandRepository _productColorCommandRepository;
+        private readonly IProductFileCommandRepository _productFileCommandRepository;
+
+        public ProductService(IProductCommandRepository productCommandRepository,
+            IProductQueryRepository productQueryRepository,
+            IProductColorCommandRepository productColorCommandRepository,
+            IProductFileCommandRepository productFileCommandRepository)
         {
-            _queryRepository = categoryQueryRepository;
-            _commandRepository = categoryCommandRepository;
+            _productQueryRepository = productQueryRepository;
+            _productColorCommandRepository = productColorCommandRepository;
+            _productFileCommandRepository = productFileCommandRepository;
+            _productCommandRepository = productCommandRepository;
         }
 
         public async Task Delete(int id)
         {
-            await _commandRepository.Delete(id);
+            await _productCommandRepository.Delete(id);
         }
 
         public async Task EnsureDoesNotExist(string name)
         {
-            var record = await _queryRepository.Get(name);
+            var record = await _productQueryRepository.Get(name);
             if (record != null)
             {
                 throw new Exception($"Category {name} Already Exists!");
@@ -38,7 +46,7 @@ namespace App.Domain.Services.Product
 
         public async Task EnsureExists(string name)
         {
-            var record = await _queryRepository.Get(name);
+            var record = await _productQueryRepository.Get(name);
             if (record == null)
             {
                 throw new Exception($"Category {name} Doesn't Exists!");
@@ -47,16 +55,16 @@ namespace App.Domain.Services.Product
 
         public async Task EnsureExists(int id)
         {
-            var record = await _queryRepository.Get(id);
+            var record = await _productQueryRepository.Get(id);
             if (record == null)
             {
                 throw new Exception($"Category {id} Doesn't Exists!");
             }
         }
 
-        public async Task<ProductDto> Get(int id)
+        public async Task<ProductShowDto> Get(int id)
         {
-            var record = await _queryRepository.Get(id);
+            var record = await _productQueryRepository.Get(id);
             if (record == null)
             {
                 throw new Exception($"Category {id} Doesn't Exists!");
@@ -64,9 +72,9 @@ namespace App.Domain.Services.Product
             return record;
         }
 
-        public async Task<ProductDto> Get(string name)
+        public async Task<ProductShowDto> Get(string name)
         {
-            var record = await _queryRepository.Get(name);
+            var record = await _productQueryRepository.Get(name);
             if (record == null)
             {
                 throw new Exception($"Category {name} Doesn't Exists!");
@@ -74,19 +82,29 @@ namespace App.Domain.Services.Product
             return record;
         }
 
-        public async Task<List<ProductDto>> GetAll()
+        public async Task<List<ProductShowDto>?> GetAll()
         {
-            return await _queryRepository.GetAll();
+            return await _productQueryRepository.GetAll();
         }
 
-        public async Task Set(ProductDto dto)
+        public async Task<int> Set(ProductCreateDto dto)
         {
-            await _commandRepository.Add(dto);
+            return await _productCommandRepository.Add(dto);
         }
 
-        public async Task Update(ProductDto dto)
+        public async Task Set(ProductColorDto dto)
         {
-            await _commandRepository.Update(dto);
+            await _productColorCommandRepository.Add(dto);
+        }
+
+        public async Task Set(ProductFileDto dto)
+        {
+            await _productFileCommandRepository.Add(dto);
+        }
+
+        public async Task Update(ProductShowDto dto)
+        {
+            await _productCommandRepository.Update(dto);
         }
 
     }

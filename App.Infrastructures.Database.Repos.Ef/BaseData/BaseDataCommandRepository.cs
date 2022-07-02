@@ -17,6 +17,15 @@ namespace App.Infrastructures.Database.Repos.Ef.BaseData
         {
             _context = context;
         }
-       
+
+        public Task AddFileType(string name, int fileTypeExtentionId, DateTime creationDate, bool isDeleted)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteFileType(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

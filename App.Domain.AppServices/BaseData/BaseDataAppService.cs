@@ -11,6 +11,16 @@ namespace App.Domain.AppServices.BaseData
 {
     public class BaseDataAppService : IBaseDataAppService
     {
+        private readonly IBaseDataService _baseDataService;
 
+        public BaseDataAppService(IBaseDataService baseDataService)
+        {
+            _baseDataService = baseDataService;
+        }
+        public async Task<int?> GetFileTypeId(string name)
+        {
+            await _baseDataService.EnsureFileTypeExists(name);
+            return await _baseDataService.GetFileTypeId(name);
+        }
     }
 }

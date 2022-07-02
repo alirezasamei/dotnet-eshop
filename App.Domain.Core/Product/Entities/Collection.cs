@@ -7,6 +7,7 @@ namespace App.Domain.Core.Product.Entities
     {
         public Collection()
         {
+            Products = new HashSet<Product>();
             CollectionProducts = new HashSet<CollectionProduct>();
         }
 
@@ -16,5 +17,6 @@ namespace App.Domain.Core.Product.Entities
         public bool IsDeleted { get; set; }
 
         public virtual ICollection<CollectionProduct> CollectionProducts { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

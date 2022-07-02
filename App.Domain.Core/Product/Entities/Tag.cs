@@ -8,6 +8,7 @@ namespace App.Domain.Core.Product.Entities
     {
         public Tag()
         {
+            Products = new HashSet<Product>();
             ProductTags = new HashSet<ProductTag>();
         }
 
@@ -20,5 +21,6 @@ namespace App.Domain.Core.Product.Entities
 
         public virtual TagCategory TagCategory { get; set; } = null!;
         public virtual ICollection<ProductTag> ProductTags { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

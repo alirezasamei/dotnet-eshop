@@ -37,6 +37,8 @@ namespace App.EndPoints.Mvc.AdminUI.ViewModels
         public string Name { get; set; } = null!;
         [Display(Name = "تاریخ ثبت")]
         public DateTime CreationDate { get; set; }
+        [Display(Name = "تصاویر")]
+        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
         [Display(Name = "حذف شده")]
         public bool IsDeleted { get; set; }
     }
